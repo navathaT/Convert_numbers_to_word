@@ -55,7 +55,7 @@ stages:
         connectionType: 'Aksserviceconnection'
         azureSubscription: 'Aksserviceconnection'
         azureResourceGroup: 'Aks_resourcegroup'
-        kubernetesCluster: 'webapp_akscluster'
+        kubernetesCluster: 'projectserviceconnection'
         command: upgrade
         chartType: FilePath
         chartPath: './number-to-word'
