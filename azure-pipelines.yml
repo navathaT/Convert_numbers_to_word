@@ -34,15 +34,14 @@ stages:
 
 
 # =========================
-# STAGE 2: DEPLOY (CD)
+# CD STAGE (DEPLOY TO AKS)
 # =========================
-- stage: Deploy
-  displayName: Deploy to AKS using Helm
-  dependsOn: Build
-  condition: succeeded()
+- stage: CD
+  displayName: Deploy to AKS
+ 
 
   jobs:
-  - job: DeployJob
+  - job: Deploy
     steps:
 
     - task: HelmInstaller@1
@@ -50,12 +49,12 @@ stages:
         helmVersionToInstall: 'latest'
 
     - task: HelmDeploy@0
-      displayName: Deploy Helm Chart
+      displayName: Helm Deploy
       inputs:
-        connectionType: 'Aksserviceconnection'
+        connectionType: 'Azure Resource Manager'
         azureSubscription: 'Aksserviceconnection'
         azureResourceGroup: 'Aks_resourcegroup'
-        kubernetesCluster: 'projectserviceconnection'
+        kubernetesCluster: 'webapp_akscluster'
         command: upgrade
         chartType: FilePath
         chartPath: './number-to-word'
@@ -63,3 +62,4 @@ stages:
         install: true
         arguments: >
           --set image.tag=$(tag)
+
